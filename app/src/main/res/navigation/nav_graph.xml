@@ -5,13 +5,8 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/loginFragment">
     <fragment
-        android:id="@+id/secondFragment"
-        android:name="com.uninorte.a_202030_courseinfowithlogin.ui.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
-    <fragment
         android:id="@+id/loginFragment"
-        android:name="com.uninorte.a_202030_courseinfowithlogin.ui.LoginFragment"
+        android:name="com.uninorte.a_202030_courseinfowithlogin.ui.HomeFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_home" />
 </navigation>
