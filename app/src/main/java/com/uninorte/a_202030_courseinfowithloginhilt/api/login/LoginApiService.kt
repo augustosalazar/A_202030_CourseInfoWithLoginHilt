@@ -8,32 +8,17 @@ import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
 
-class LoginApiService {
-
-    companion object{
-
-        fun getRestEngine(): LoginApi {
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-            val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-            //val client = OkHttpClient.Builder().build()
-            return Retrofit.Builder()
-                .baseUrl("https://movil-api.herokuapp.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build()
-                .create(LoginApi::class.java)
-
-        }
-    }
-
+class LoginApiService @Inject constructor(
+    private val engine: LoginApi
+){
 
      fun signIn(user: User) : MutableLiveData<User>{
         val userResponse = MutableLiveData<User>()
 
-         getRestEngine().signIn(user).enqueue(object: Callback<User>{
+         engine.signIn(user).enqueue(object: Callback<User>{
              override fun onResponse(call: Call<User>, response: Response<User>) {
                  if (response.isSuccessful) {
                      Log.d("MyOut", "OK isSuccessful " + response.body())
@@ -63,7 +48,7 @@ class LoginApiService {
     fun signUp(user: User) : MutableLiveData<User> {
         val userResponse = MutableLiveData<User>()
 
-        getRestEngine().signUp(user).enqueue(object: Callback<User>{
+        engine.signUp(user).enqueue(object: Callback<User>{
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 if (response.isSuccessful) {
                     Log.d("MyOut", "OK isSuccessful " + response.body())
@@ -91,7 +76,7 @@ class LoginApiService {
     }
 
     suspend fun signUp2(user: User) {
-        getRestEngine().signUp2(user.email, user.password, user.username, user.name).enqueue(object: Callback<ResponseBody>{
+        engine.signUp2(user.email, user.password, user.username, user.name).enqueue(object: Callback<ResponseBody>{
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
                     Log.d("MyOut", "OK isSuccessful " + response.body()?.string())

@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.uninorte.a_202030_courseinfowithlogin.service.api.login.LoginApiService
 import com.uninorte.a_202030_courseinfowithlogin.model.User
+import javax.inject.Inject
 
-class LoginRepository {
-
+class LoginRepository @Inject constructor(
+    private val service: LoginApiService
+) {
     var userLiveData = MutableLiveData<User>()
-
-    private val service = LoginApiService()
 
     fun signIn(user: User) = service.signIn(user)
 
