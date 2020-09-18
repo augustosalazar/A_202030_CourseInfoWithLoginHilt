@@ -2,6 +2,7 @@ package com.uninorte.a_202030_courseinfowithloginhilt.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.uninorte.a_202030_courseinfowithlogin.service.api.course.CourseApi
 import com.uninorte.a_202030_courseinfowithlogin.service.api.login.LoginApi
 import com.uninorte.a_202030_courseinfowithlogin.service.api.login.LoginApiService
 import dagger.Module
@@ -46,5 +47,9 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideLoginApiService(retrofit: Retrofit): LoginApi = retrofit.create(LoginApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCourseApiService(retrofit: Retrofit): CourseApi = retrofit.create(CourseApi::class.java)
 
 }

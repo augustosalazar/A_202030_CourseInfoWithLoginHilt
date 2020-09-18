@@ -75,22 +75,4 @@ class LoginApiService @Inject constructor(
         return userResponse
     }
 
-    suspend fun signUp2(user: User) {
-        engine.signUp2(user.email, user.password, user.username, user.name).enqueue(object: Callback<ResponseBody>{
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                if (response.isSuccessful) {
-                    Log.d("MyOut", "OK isSuccessful " + response.body()?.string())
-                } else {
-                    Log.d("MyOut", "NOK  "+response.code() )
-                    // Log.d("MyOut", "NOK isNotSuccessful " + response.errorBody()?.string())
-                }
-
-            }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                Log.d("MyOut","Failure "+t.message)
-            }
-
-        })
-    }
 }
