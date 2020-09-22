@@ -13,22 +13,15 @@ import javax.inject.Inject
 
 class CourseApiService @Inject constructor(
     private val engine: CourseApi
-){
-
-    //companion object{
-
-        val theResponse = MutableLiveData<List<Course>>()
-        var courses = mutableListOf<Course>()
-    //}
+) {
+    val theResponse = MutableLiveData<List<Course>>()
+    var courses = mutableListOf<Course>()
 
     fun getCourseData() = theResponse
 
-
-     fun getCourses(user: String, token: String){
-
-        //Log.d("MyOut", "getCourses with token  <" + token+">")
-        val auth = "Bearer "+token
-         engine.getCourses(user,auth).enqueue(object: Callback<List<Course>>{
+    fun getCourses(user: String, token: String) {
+        val auth = "Bearer " + token
+        engine.getCourses(user, auth).enqueue(object : Callback<List<Course>> {
             override fun onResponse(call: Call<List<Course>>, response: Response<List<Course>>) {
                 if (response.isSuccessful) {
                     Log.d("MyOut", "OK isSuccessful ")
@@ -42,14 +35,14 @@ class CourseApiService @Inject constructor(
                         theResponse.postValue(courses)
                     }
                 } else {
-                    Log.d("MyOut", "NOK  "+response.code() )
-                    Log.d("MyOut", "NOK  "+response.toString() )
-                    Log.d("MyOut", "NOK  "+response.errorBody().toString() )
+                    Log.d("MyOut", "NOK  " + response.code())
+                    Log.d("MyOut", "NOK  " + response.toString())
+                    Log.d("MyOut", "NOK  " + response.errorBody().toString())
                 }
             }
 
             override fun onFailure(call: Call<List<Course>>, t: Throwable) {
-                Log.d("MyOut","Failure "+t.message)
+                Log.d("MyOut", "Failure " + t.message)
             }
 
         })
@@ -57,28 +50,25 @@ class CourseApiService @Inject constructor(
     }
 
     fun addCourse(user: String, token: String) {
-
-        Log.d("MyOut", "addCourse with token  <" + token+">")
-        val auth = "Bearer "+token
-        engine.addCourse(user,auth).enqueue(object: Callback<Course>{
+        Log.d("MyOut", "addCourse with token  <" + token + ">")
+        val auth = "Bearer " + token
+        engine.addCourse(user, auth).enqueue(object : Callback<Course> {
             override fun onResponse(call: Call<Course>, response: Response<Course>) {
                 if (response.isSuccessful) {
                     Log.d("MyOut", "OK isSuccessful ")
                     val loginResponse = response.body()
                     if (loginResponse != null) {
-                        //Log.d("MyOut", "OK isSuccessful token " )
-                        courses.add(response.body()!!)
-                        theResponse.postValue(courses)
+                        getCourses(user, token)
                     }
                 } else {
-                    Log.d("MyOut", "NOK  "+response.code() )
-                    Log.d("MyOut", "NOK  "+response.toString() )
-                    Log.d("MyOut", "NOK  "+response.errorBody().toString() )
+                    Log.d("MyOut", "NOK  " + response.code())
+                    Log.d("MyOut", "NOK  " + response.toString())
+                    Log.d("MyOut", "NOK  " + response.errorBody().toString())
                 }
             }
 
             override fun onFailure(call: Call<Course>, t: Throwable) {
-                Log.d("MyOut","Failure "+t.message)
+                Log.d("MyOut", "Failure " + t.message)
             }
 
         })
